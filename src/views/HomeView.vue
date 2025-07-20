@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full flex flex-col items-center mt-16 h-screen">
+  <main class="w-full flex flex-col items-center mt-12 sm:mt-48 h-screen">
     <h1 class="text-text-primary font-extrabold tracking-wider text-3xl sm:text-5xl">GPX Statistics</h1>
     <h2 class="text-secondary mt-2 text-center mx-4">View, upload, and learn about the GPX tracks on your OpenStreetMap
       account.</h2>
@@ -16,7 +16,7 @@
       <p class="text-red-800">{{ authStore.error }}</p>
     </div>
 
-    <div class="mt-3 space-y-2 xs:space-x-2 flex flex-col xs:block">
+    <div class="mt-6 space-y-2 xs:space-x-2 flex flex-col xs:block">
       <!-- Authentication-aware button -->
       <p-button v-if="!authStore.isAuthenticated" :disabled="authStore.isLoading" @click="handleGetStarted">
         <span v-if="authStore.isLoading">Connecting...</span>
@@ -27,14 +27,15 @@
 
       <!-- Logout button when authenticated -->
       <p-button v-if="authStore.isAuthenticated" label="Sign Out" @click="handleLogout" />
+      <Data/>
     </div>
-    <img src="@/assets/map.png" alt="" class="w-full mt-8 object-cover h-full min-h-96">
   </main>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import Data from '@/components/Data.vue';
 
 const authStore = useAuthStore()
 

@@ -36,7 +36,6 @@
 import { onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import GButton from '@/components/g-button.vue'
 
 const route = useRoute()
 const router = useRouter()
