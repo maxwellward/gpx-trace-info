@@ -1,4 +1,7 @@
-html {
-	background: #18181b;
+html,
+body {
+	background: #09090b;
 	height: 100%;
+	margin: 0;
+	padding: 0;
 }

@@ -1,8 +1,13 @@
 <template>
-  <main class="w-full flex flex-col items-center mt-12 sm:mt-48 h-screen">
-    <h1 class="text-text-primary font-extrabold tracking-wider text-3xl sm:text-5xl">GPX Statistics</h1>
-    <h2 class="text-secondary mt-2 text-center mx-4">View, upload, and learn about the GPX tracks on your OpenStreetMap
-      account.</h2>
+  <main class="w-full flex flex-col mt-12 h-screen px-24">
+
+    <Header @toggle-view="selectedView = $event" />
+
+    <Data v-if="selectedView === 'statistics'" />
+    <Manager v-else-if="selectedView === 'manage'" />
+
+    <div class="mt-32" />
+    <ThemeToggle />
 
     <!-- Authentication Status -->
     <div v-if="authStore.isAuthenticated" class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
@@ -23,20 +28,23 @@
         <span v-else>Sign in with OpenStreetMap</span>
       </p-button>
 
-      <p-button v-else label="View Your Tracks" @click="viewTracks" />
-
       <!-- Logout button when authenticated -->
       <p-button v-if="authStore.isAuthenticated" label="Sign Out" @click="handleLogout" />
-      <Data/>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import Data from '@/components/Data.vue';
 
+import Header from '@/components/Header.vue';
+import Data from '@/components/Data.vue';
+import Manager from '@/components/Manager.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
+
+
+const selectedView = ref<'statistics' | 'manage'>('statistics')
 const authStore = useAuthStore()
 
 onMounted(async () => {
@@ -54,16 +62,6 @@ const handleGetStarted = async () => {
 
 const handleLogout = () => {
   authStore.logout()
-}
-
-const viewTracks = () => {
-  // TODO: Navigate to tracks view or implement tracks functionality
-  console.log('Navigate to tracks view')
-}
-
-const learnMore = () => {
-  // TODO: Navigate to about page or show more information
-  console.log('Show more information')
 }
 </script>
 
