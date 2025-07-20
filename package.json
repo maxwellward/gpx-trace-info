@@ -16,6 +16,7 @@
   "dependencies": {
     "@primeuix/themes": "^1.2.1",
     "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/vue-table": "^8.21.3",
     "@unovis/vue": "^1.5.2",
     "@vueuse/core": "^13.5.0",
     "class-variance-authority": "^0.7.1",

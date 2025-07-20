@@ -7,7 +7,7 @@
 						<h2>GPX Traces</h2>
 						<ChartLine class="size-6 rounded-md p-1.5" />
 					</CardTitle>
-					<CardDescription class="text-[#9f9fa9] text-xs">Total number of GPX traces you've uploaded
+					<CardDescription>Total number of GPX traces you've uploaded
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -20,7 +20,7 @@
 						<h2>Kilometers Traced</h2>
 						<ChartLine class="size-6 bg-[#27272a] rounded-md p-1.5" />
 					</CardTitle>
-					<CardDescription class="text-[#9f9fa9] text-xs">Total distance you've travelled in your GPX
+					<CardDescription>Total distance you've travelled in your GPX
 						traces</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -33,7 +33,7 @@
 						<h2>GPS Points</h2>
 						<ChartLine class="size-6 rounded-md p-1.5" />
 					</CardTitle>
-					<CardDescription class="text-[#9f9fa9] text-xs">Total number of GPS points across all your traces
+					<CardDescription>Total number of GPS points across all your traces
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -55,6 +55,7 @@ import {
 	CardContent,
 	CardHeader,
 	CardTitle,
+	CardDescription
 } from '@/components/ui/card'
 import { ChartLine } from 'lucide-vue-next'
 </script>
