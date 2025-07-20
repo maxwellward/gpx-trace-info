@@ -3,14 +3,9 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <!-- <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="w-full">
+    <div class="w-full xl:w-5/6 2xl:w-3/4 mx-auto">
+      <RouterView />
     </div>
-  </header> -->
-
-  <RouterView />
+  </div>
 </template>
