@@ -1,0 +1,15 @@
+@import "./base.css";
+@import "tailwindcss";
+
+@import 'primeicons/primeicons.css';
+
+@theme {
+	--color-text-primary: #EEEEEE;
+	--color-primary: #00ADB5;
+	--color-background: #18181b;
+	--color-secondary: #888B90;
+
+	--breakpoint-xs: 30rem;
+}
+
+/* https://www.realtimecolors.com/?colors=f5efe7-100d09-c8bdaf-317367-5076b4&fonts=Inter-Inter */
