@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full flex flex-col mt-12 px-24">
+  <main class="w-full flex flex-col">
     <Header @toggle-view="selectedView = $event" />
 
     <Data v-if="selectedView === 'statistics'" />

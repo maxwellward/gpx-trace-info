@@ -28,11 +28,4 @@ const props = defineProps<{
 const xFormatter = (tick: number, i: number): string => `${props.data[i]?.date || ''}`
 
 const height = 340
-// const { height } = useResponsiveHeight({
-//   default: 180,
-//   sm: 220,
-//   md: 260,
-//   lg: 300,
-//   xl: 340,
-// })
 </script>

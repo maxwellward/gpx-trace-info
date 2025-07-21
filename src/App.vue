@@ -1,8 +1,6 @@
 <template>
-  <div class="w-full">
-    <div class="w-full xl:w-5/6 2xl:w-3/4 mx-auto">
-      <RouterView />
-    </div>
+  <div class="w-full xl:w-5/6 2xl:w-[50%] mx-auto mt-16">
+    <RouterView />
   </div>
 </template>
 

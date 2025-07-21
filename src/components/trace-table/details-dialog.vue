@@ -50,7 +50,7 @@ const emit = defineEmits<{
 
 const information = ref({
   file_name: '19_Jul_2025_1425.gpx',
-  description: 'Courtenay to Cumberland',
+  description: 'A nice fun walk through the forest',
   tags: 'None',
   uploaded: new Date('2025-07-19T21:29:00').toLocaleString(undefined, {
     weekday: 'short',
