@@ -8,6 +8,8 @@
       <DialogDescription className="sr-only">GPX trace metadata</DialogDescription>
     </DialogHeader>
 
+    <DetailsMap />
+
     <div class="flex items-center w-full gap-2" v-for="(value, key) in information" :key="key">
       <p class="capitalize">{{ key.replace(/_/g, ' ') }}</p>
       <Separator class="flex-1 mx-2" />
@@ -40,6 +42,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { BookText } from 'lucide-vue-next'
 import { ref } from 'vue'
+import DetailsMap from '@/components/details-map.vue'
 
 const emit = defineEmits<{
   close: []
