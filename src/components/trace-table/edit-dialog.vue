@@ -5,7 +5,9 @@
         <Settings2 class="size-5" />
         <h2>Edit GPX Trace</h2>
       </DialogTitle>
-      <DialogDescription> Editing trace "{{ 'Morning Jog' }}" ({{ 3.2 }}km)</DialogDescription>
+      <DialogDescription>
+        <p>Editing "{{ 'Morning Jog' }}" ({{ 3.2 }}km)</p>
+      </DialogDescription>
     </DialogHeader>
 
     <div class="space-y-3">
@@ -77,7 +79,13 @@
       </div>
     </div>
 
-    <DialogFooter>
+    <DialogFooter class="items-center !justify-between">
+      <p class="text-sm text-muted-foreground">
+        Looking to modify your trace file? Try
+        <a href="https://gpx.studio" target="_blank" class="text-blue-300 hover:underline"
+          >gpx.studio</a
+        >
+      </p>
       <Button @click="handleEdit()" :disabled="!canSubmit">
         <p>Save</p>
         <Check class="size-4 mt-1" />
