@@ -19,13 +19,7 @@
           <Share2 class="size-4" />
           <p>Share</p>
         </Button>
-        <Avatar>
-          <AvatarImage
-            src="https://avatars.githubusercontent.com/u/13861522?v=4"
-            alt="@maxwellward"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <AccountMenu />
       </div>
     </div>
 
@@ -49,7 +43,6 @@ import { Share2 } from 'lucide-vue-next'
 
 import { DatePicker } from '@/components/ui/date-picker'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   Select,
   SelectContent,
@@ -59,6 +52,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import AccountMenu from '@/components/account-menu.vue'
 
 const emit = defineEmits<{
   (e: 'toggleView', view: 'statistics' | 'manage'): void
