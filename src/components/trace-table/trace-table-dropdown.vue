@@ -11,7 +11,7 @@
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem @click="copy(trace.id)" class="group">
           <Link2 class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
-          <p>Copy OSM URL</p>
+          <p>Copy URL</p>
         </DropdownMenuItem>
         <DropdownMenuItem @click="showEditDialog = true" class="group">
           <Settings2 class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
@@ -30,6 +30,10 @@
           <BookText class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
           <p>View Details</p>
         </DropdownMenuItem>
+        <DropdownMenuItem class="group">
+          <ArrowDownToLine class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
+          <p>Download GPX File</p>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
 
@@ -44,7 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import { MoreHorizontal, Link2, Settings2, Trash2, BookText } from 'lucide-vue-next'
+import {
+  MoreHorizontal,
+  Link2,
+  Settings2,
+  Trash2,
+  BookText,
+  ArrowDownToLine,
+} from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
