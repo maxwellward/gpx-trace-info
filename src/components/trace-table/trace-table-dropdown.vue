@@ -26,7 +26,7 @@
           </p>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem class="group">
+        <DropdownMenuItem @click="showDetailsDialog = true" class="group">
           <BookText class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
           <p>View Details</p>
         </DropdownMenuItem>
@@ -43,6 +43,10 @@
 
     <Dialog v-model:open="showEditDialog">
       <EditDialog @close="showEditDialog = false" />
+    </Dialog>
+
+    <Dialog v-model:open="showDetailsDialog">
+      <DetailsDialog @close="showDetailsDialog = false" />
     </Dialog>
   </div>
 </template>
@@ -68,6 +72,7 @@ import {
 import { ref } from 'vue'
 import DeleteDialog from '@/components/trace-table/delete-dialog.vue'
 import EditDialog from '@/components/trace-table/edit-dialog.vue'
+import DetailsDialog from '@/components/trace-table/details-dialog.vue'
 import { Dialog } from '@/components/ui/dialog'
 
 defineProps<{
@@ -82,4 +87,5 @@ function copy(id: string) {
 
 const showDeleteDialog = ref(false)
 const showEditDialog = ref(false)
+const showDetailsDialog = ref(false)
 </script>

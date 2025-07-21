@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="flex items-center justify-between">
-      <h1 class="text-text-primary font-extrabold tracking-wider text-xl sm:text-2xl">
-        GPX Statistics
-      </h1>
+      <h1 class="text-text-primary font-bold tracking-wide text-xl sm:text-2xl">GPX Statistics</h1>
       <div class="space-x-2 flex">
         <DatePicker />
         <Select>
