@@ -2,15 +2,31 @@
   <DialogContent>
     <DialogHeader>
       <DialogTitle class="flex items-center gap-1">
-        <Settings2 class="size-5" />
-        <h2>Edit GPX Trace</h2>
+        <Upload class="size-5" />
+        <h2>Upload GPX Trace</h2>
       </DialogTitle>
       <DialogDescription>
-        <p>Editing "{{ 'Morning Jog' }}" ({{ 3.2 }}km)</p>
+        <p>
+          Your GPX trace will be uploaded to OpenStreetMap under the
+          <a href="https://opendatacommons.org/licenses/odbl/" target="_blank"
+            class="text-blue-400 hover:underline">Open Data Commons
+            Open Database
+            License</a>
+          (ODbL)
+        </p>
       </DialogDescription>
     </DialogHeader>
 
     <div class="space-y-3">
+      <div>
+        <div class="flex">
+          <label for="terms" class="text-sm font-medium">GPX File</label>
+          <p class="text-red-400">*</p>
+        </div>
+        <Input type="file" id="gpxFileInput" accept="application/gpx+xml" @change="handleUploadedFile" />
+        <p class="text-muted-foreground text-xs">Must be a .gpx file</p>
+      </div>
+
       <div>
         <div class="flex">
           <label for="terms" class="text-sm font-medium">Description</label>
@@ -51,11 +67,8 @@
                 </p>
                 <div class="flex items-center gap-1 mt-1">
                   <Link2 class="size-4 mt-0.5" />
-                  <a
-                    href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
-                    target="_blank"
-                    class="text-blue-600"
-                  >
+                  <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces" target="_blank"
+                    class="text-blue-600">
                     Learn more about privacy levels
                   </a>
                 </div>
@@ -69,8 +82,8 @@
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="private">Private</SelectItem>
               <SelectItem value="public">Public</SelectItem>
+              <SelectItem value="private">Private</SelectItem>
               <SelectItem value="trackable">Trackable</SelectItem>
               <SelectItem value="identifiable">Identifiable</SelectItem>
             </SelectGroup>
@@ -82,13 +95,11 @@
     <DialogFooter class="items-center !justify-between">
       <p class="text-sm text-muted-foreground">
         Looking to modify your trace file? Try
-        <a href="https://gpx.studio" target="_blank" class="text-blue-300 hover:underline"
-          >gpx.studio</a
-        >
+        <a href="https://gpx.studio" target="_blank" class="text-blue-300 hover:underline">gpx.studio</a>
       </p>
       <Button @click="handleEdit()" :disabled="!canSubmit">
-        <p>Save</p>
-        <Check class="size-4 mt-1" />
+        <p>Upload</p>
+        <Upload class="size-4" />
       </Button>
     </DialogFooter>
   </DialogContent>
@@ -120,13 +131,14 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Settings2, Check, Info, Link2 } from 'lucide-vue-next'
+import { Upload, Info, Link2 } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
 
 const emit = defineEmits<{
   close: []
 }>()
 
+const selectedFile = ref();
 const description = ref('')
 const tags = ref([])
 const visibility = ref<'private' | 'public' | 'trackable' | 'identifiable'>()
@@ -134,6 +146,14 @@ const visibility = ref<'private' | 'public' | 'trackable' | 'identifiable'>()
 const canSubmit = computed(() => {
   return !!description.value && !!visibility.value
 })
+
+const handleUploadedFile = () => {
+  const input = document.getElementById("gpxFileInput") as HTMLInputElement;
+  if (!input) throw Error('Something went wrong while getting the file upload input element.');
+  selectedFile.value = input.files?.[0];
+  console.log(selectedFile.value);
+
+}
 
 const handleEdit = () => {
   emit('close')

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full xl:w-5/6 2xl:w-[50%] mx-auto mt-16">
+  <div class="w-5/6 xl:w-5/6 2xl:w-[50%] mx-auto mt-16">
     <RouterView />
   </div>
 </template>
