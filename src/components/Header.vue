@@ -26,7 +26,7 @@
         </Button>
 
         <AccountMenu v-if="isAuthenticated" />
-        <Button v-else>Sign In</Button>
+        <Button v-else @click="handleSignIn">Sign In</Button>
       </div>
     </div>
   </div>
@@ -48,6 +48,24 @@ import {
 import AccountMenu from '@/components/account-menu.vue'
 
 import { useAuthStore } from '@/stores/auth';
+import { onMounted, computed } from 'vue'
 
-const { isAuthenticated } = useAuthStore();
+const authStore = useAuthStore()
+
+// Use computed properties to maintain reactivity
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+
+onMounted(async () => {
+  // Load any saved authentication state
+  await authStore.loadSavedAuth()
+})
+
+const handleSignIn = async () => {
+  try {
+    await authStore.login()
+  } catch (error) {
+    console.error('Login failed:', error)
+  }
+}
+
 </script>

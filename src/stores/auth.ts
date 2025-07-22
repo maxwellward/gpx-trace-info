@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import router from '@/router'
 
 interface OSMUser {
 	id: number
@@ -234,6 +235,8 @@ export const useAuthStore = defineStore('auth', () => {
 		sessionStorage.removeItem('oauth_state')
 		localStorage.removeItem('oauth_state_backup')
 		localStorage.removeItem('osm_access_token')
+
+		router.push({ name: 'landing' })
 	}
 
 	// Load saved authentication state
