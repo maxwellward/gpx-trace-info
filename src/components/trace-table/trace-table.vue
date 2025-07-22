@@ -6,7 +6,7 @@
         <TextSearch class="size-4 text-muted-foreground" />
       </span>
     </div>
-    <Button>
+    <Button @click="showUploadDialog = true">
       <Upload class="size-4" />
       <p>Upload GPX Trace</p>
     </Button>
@@ -76,6 +76,10 @@
       <PaginationNext :disabled="!table.getCanNextPage()" @click="table.nextPage()" />
     </PaginationContent>
   </Pagination>
+
+  <Dialog v-model:open="showUploadDialog">
+    <UploadDialog @close="showUploadDialog = false" />
+  </Dialog>
 </template>
 
 <script setup lang="ts" generic="TData, TValue">
@@ -87,6 +91,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from '@tanstack/vue-table'
+
+import { Dialog } from '@/components/ui/dialog'
 
 import {
   Table,
@@ -112,11 +118,14 @@ import { TextSearch, Upload } from 'lucide-vue-next'
 
 import { valueUpdater } from '@/lib/utils'
 import { ref } from 'vue'
+import UploadDialog from '@/components/trace-table/upload-dialog.vue'
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }>()
+
+const showUploadDialog = ref(false)
 
 const sorting = ref<SortingState>([])
 const rowSelection = ref({})
