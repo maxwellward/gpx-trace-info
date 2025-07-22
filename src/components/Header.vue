@@ -1,10 +1,14 @@
 <template>
   <div>
     <div class="flex items-center justify-between">
-      <h1 class="text-text-primary font-bold tracking-wide text-xl sm:text-2xl">GPX Statistics</h1>
+      <div class="flex items-center gap-2">
+        <DraftingCompass class="size-6" />
+        <h1 class="text-text-primary font-bold tracking-wide text-xl sm:text-2xl">GPX Statistics</h1>
+      </div>
       <div class="space-x-2 flex">
-        <DatePicker />
-        <Select>
+        <DatePicker v-if="isAuthenticated" />
+
+        <Select v-if="isAuthenticated">
           <SelectTrigger>
             <SelectValue placeholder="Units" />
           </SelectTrigger>
@@ -15,31 +19,21 @@
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button>
+
+        <Button v-if="isAuthenticated">
           <Share2 class="size-4" />
           <p>Share</p>
         </Button>
-        <AccountMenu />
-      </div>
-    </div>
 
-    <div class="mt-2">
-      <Tabs default-value="statistics">
-        <TabsList>
-          <TabsTrigger value="statistics" @click.stop="emit('toggleView', 'statistics')">
-            Statistics
-          </TabsTrigger>
-          <TabsTrigger value="manage" @click.stop="emit('toggleView', 'manage')">
-            Manage Traces
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+        <AccountMenu v-if="isAuthenticated" />
+        <Button v-else>Sign In</Button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Share2 } from 'lucide-vue-next'
+import { Share2, DraftingCompass } from 'lucide-vue-next'
 
 import { DatePicker } from '@/components/ui/date-picker'
 import { Button } from '@/components/ui/button'
@@ -51,10 +45,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import AccountMenu from '@/components/account-menu.vue'
 
-const emit = defineEmits<{
-  (e: 'toggleView', view: 'statistics' | 'manage'): void
-}>()
+import { useAuthStore } from '@/stores/auth';
+
+const { isAuthenticated } = useAuthStore();
 </script>

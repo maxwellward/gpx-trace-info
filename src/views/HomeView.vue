@@ -1,16 +1,23 @@
 <template>
   <main class="w-full flex flex-col">
-    <Header @toggle-view="selectedView = $event" />
+    <div class="mt-2">
+      <Tabs default-value="statistics">
+        <TabsList>
+          <TabsTrigger value="statistics" @click.stop="selectedView = 'statistics'">
+            Statistics
+          </TabsTrigger>
+          <TabsTrigger value="manage" @click.stop="selectedView = 'manage'">
+            Manage Traces
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </div>
 
     <Data v-if="selectedView === 'statistics'" />
     <Manager v-else-if="selectedView === 'manage'" />
 
     <!-- Temp Sign in Button -->
-    <p-button
-      v-if="!authStore.isAuthenticated"
-      :disabled="authStore.isLoading"
-      @click="handleGetStarted"
-    >
+    <p-button v-if="!authStore.isAuthenticated" :disabled="authStore.isLoading" @click="handleGetStarted">
       <span v-if="authStore.isLoading">Connecting...</span>
       <span v-else>Sign in with OpenStreetMap</span>
     </p-button>
@@ -22,6 +29,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import Header from '@/components/Header.vue'
 import Data from '@/components/Data.vue'
