@@ -1,15 +1,14 @@
 <template>
   <div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+      <!-- TODO: Convert these cards into a v-for with JSON in the script -->
       <Card>
         <CardHeader>
-          <CardTitle class="flex justify-between">
+          <CardTitle class="flex justify-between items-center">
             <h2>GPX Traces</h2>
-            <button
-              @click="selectedChartView = 'gpxTotal'"
+            <button @click="selectedChartView = 'gpxTotal'"
               class="flex items-center gap-1 px-2 py-0.5 mt-0.5 rounded-md text-muted-foreground transition-all duration-150 hover:cursor-pointer"
-              :class="selectedChartView == 'gpxTotal' && 'bg-[#27272a] text-white'"
-            >
+              :class="selectedChartView == 'gpxTotal' && 'bg-[#27272a] text-white'">
               <p class="font-medium text-xs">View in Chart</p>
               <ChartLine class="size-3" />
             </button>
@@ -17,18 +16,16 @@
           <CardDescription>Total number of GPX traces you've uploaded </CardDescription>
         </CardHeader>
         <CardContent>
-          <p class="text-lg font-bold">118</p>
+          <p class="text-lg font-bold">{{ authStore.user?.traces?.count }}</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle class="flex justify-between">
+          <CardTitle class="flex justify-between items-center">
             <h2>Kilometers Traced</h2>
-            <button
-              @click="selectedChartView = 'kilometers'"
+            <button @click="selectedChartView = 'kilometers'"
               class="flex items-center gap-1 px-2 py-0.5 mt-0.5 rounded-md text-muted-foreground transition-all duration-150 hover:cursor-pointer"
-              :class="selectedChartView == 'kilometers' && 'bg-[#27272a] text-white'"
-            >
+              :class="selectedChartView == 'kilometers' && 'bg-[#27272a] text-white'">
               <p class="font-medium text-xs">View in Chart</p>
               <ChartLine class="size-3" />
             </button>
@@ -41,13 +38,11 @@
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle class="flex justify-between">
+          <CardTitle class="flex justify-between items-center">
             <h2>GPS Points</h2>
-            <button
-              @click="selectedChartView = 'gpsPoints'"
+            <button @click="selectedChartView = 'gpsPoints'"
               class="flex items-center gap-1 px-2 py-0.5 mt-0.5 rounded-md text-muted-foreground transition-all duration-150 hover:cursor-pointer"
-              :class="selectedChartView == 'gpsPoints' && 'bg-[#27272a] text-white'"
-            >
+              :class="selectedChartView == 'gpsPoints' && 'bg-[#27272a] text-white'">
               <p class="font-medium text-xs">View in Chart</p>
               <ChartLine class="size-3" />
             </button>
@@ -61,30 +56,15 @@
     </div>
 
     <div class="mt-4">
-      <Charts
-        v-if="selectedChartView === 'gpxTotal'"
-        :data="gpxTotalMock"
-        y-label="
+      <Charts v-if="selectedChartView === 'gpxTotal'" :data="gpxTotalMock" y-label="
           GPX Traces
-        "
-        :categories="categories"
-      />
-      <Charts
-        v-else-if="selectedChartView === 'kilometers'"
-        :data="kilometersTracedMock"
-        y-label="
+        " :categories="categories" />
+      <Charts v-else-if="selectedChartView === 'kilometers'" :data="kilometersTracedMock" y-label="
           Kilometers Traced
-        "
-        :categories="categories"
-      />
-      <Charts
-        v-else-if="selectedChartView === 'gpsPoints'"
-        :data="gpsPointTracedMock"
-        y-label="
+        " :categories="categories" />
+      <Charts v-else-if="selectedChartView === 'gpsPoints'" :data="gpsPointTracedMock" y-label="
           GPS Points
-        "
-        :categories="categories"
-      />
+        " :categories="categories" />
     </div>
   </div>
 </template>
@@ -95,6 +75,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { ChartLine } from 'lucide-vue-next'
 import type { BulletLegendItemInterface } from 'vue-chrts'
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore();
 
 const categories: Record<string, BulletLegendItemInterface> = {
   kilometers: { name: 'Kilometers Traced', color: '#1abc9c' },
