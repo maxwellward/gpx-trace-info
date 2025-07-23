@@ -68,7 +68,7 @@
                 <div class="flex items-center gap-1 mt-1">
                   <Link2 class="size-4 mt-0.5" />
                   <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces" target="_blank"
-                    class="text-blue-600">
+                    class="text-blue-500">
                     Learn more about privacy levels
                   </a>
                 </div>

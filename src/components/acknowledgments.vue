@@ -12,7 +12,7 @@
     </DialogHeader>
 
     <div class="flex items-center w-full gap-2" v-for="item in acknowledgments" :key="item.name">
-      <a :href="item.url" target="_blank" class="text-blue-300 underline">{{ item.name }}</a>
+      <a :href="item.url" target="_blank" class="text-blue-400 underline">{{ item.name }}</a>
       <Separator class="flex-1 mx-2" />
       <p>{{ item.description }}</p>
     </div>

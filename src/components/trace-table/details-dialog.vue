@@ -19,9 +19,7 @@
     <DialogFooter class="items-center !justify-between">
       <p class="text-sm text-muted-foreground">
         Looking to modify your trace file? Try
-        <a href="https://gpx.studio" target="_blank" class="text-blue-300 hover:underline"
-          >gpx.studio</a
-        >
+        <a href="https://gpx.studio" target="_blank" class="text-blue-400 hover:underline">gpx.studio</a>
       </p>
       <Button @click="emit('close')" variant="secondary">
         <p>Close</p>

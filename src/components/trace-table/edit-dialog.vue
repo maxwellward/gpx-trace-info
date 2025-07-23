@@ -52,7 +52,7 @@
                 <div class="flex items-center gap-1 mt-1">
                   <Link2 class="size-4 mt-0.5" />
                   <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces" target="_blank"
-                    class="text-blue-600">
+                    class="text-blue-500">
                     Learn more about privacy levels
                   </a>
                 </div>
@@ -79,7 +79,7 @@
     <DialogFooter class="items-center !justify-between">
       <p class="text-sm text-muted-foreground">
         Looking to modify your trace file? Try
-        <a href="https://gpx.studio" target="_blank" class="text-blue-300 hover:underline">gpx.studio</a>
+        <a href="https://gpx.studio" target="_blank" class="text-blue-400 hover:underline">gpx.studio</a>
       </p>
       <Button @click="handleEdit()" :disabled="!canSubmit">
         <p>Save</p>
