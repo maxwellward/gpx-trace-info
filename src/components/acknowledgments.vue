@@ -2,11 +2,8 @@
   <DialogContent>
     <DialogHeader>
       <DialogTitle class="flex items-center gap-1">
-        <Heart
-          class="size-5 text-red-400 cursor-pointer transition-transform duration-200 ease-out"
-          :style="{ transform: `scale(${heartScale})` }"
-          @click="growHeart"
-        />
+        <Heart class="size-5 text-red-400 cursor-pointer transition-transform duration-200 ease-out"
+          :style="{ transform: `scale(${heartScale})` }" @click="growHeart" />
         <h2>Acknowledgments</h2>
       </DialogTitle>
       <DialogDescription>
@@ -94,7 +91,7 @@ const acknowledgments = ref([
   {
     name: 'Shadcn',
     url: 'https://ui.shadcn.com/',
-    description: 'Component styles and inspiration',
+    description: 'Component bases and inspiration',
   },
   {
     name: 'Nuxt Charts',
@@ -110,6 +107,11 @@ const acknowledgments = ref([
     name: 'OSM Contributors',
     url: 'https://openstreetmap.org/',
     description: 'Mapping the world',
+  },
+  {
+    name: 'Lucide',
+    url: 'https://lucide.dev/',
+    description: 'Icons',
   },
 ])
 </script>
