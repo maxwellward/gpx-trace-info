@@ -9,8 +9,7 @@
       <DropdownMenuLabel>Hi, {{ authStore.displayName || 'you' }}</DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuItem class="group">
-        <a :href="`https://openstreetmap.org/user/${authStore.displayName}`" target="_blank"
-          class="flex items-center gap-1 group">
+        <a :href="`${BASE_URI}/user/${authStore.displayName}`" target="_blank" class="flex items-center gap-1 group">
           <SquareArrowOutUpRight class="size-4 mt-0.5" />
           <p>OpenStreetMap Profile</p>
         </a>
@@ -45,8 +44,9 @@ import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 
 const authStore = useAuthStore()
-
 const user = computed(() => authStore.user);
+
+const BASE_URI = import.meta.env.VITE_OSM_BASE_URI;
 
 const profileImage = computed(() => {
   if (user.value?.img) {

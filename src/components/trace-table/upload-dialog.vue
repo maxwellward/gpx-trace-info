@@ -32,15 +32,15 @@
           <label for="terms" class="text-sm font-medium">Description</label>
           <p class="text-red-400">*</p>
         </div>
-        <Input type="text" placeholder="Description..." v-model="description" />
+        <Input type="text" placeholder="Description..." v-model="trace.description" />
       </div>
 
       <div>
         <div class="flex mb-1">
           <label for="terms" class="text-sm font-medium">Tags</label>
         </div>
-        <TagsInput v-model="tags">
-          <TagsInputItem v-for="item in tags" :key="item" :value="item">
+        <TagsInput v-model="trace.tags">
+          <TagsInputItem v-for="item in trace.tags" :key="item" :value="item">
             <TagsInputItemText />
             <TagsInputItemDelete />
           </TagsInputItem>
@@ -76,7 +76,7 @@
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Select v-model="visibility">
+        <Select v-model="trace.visibility">
           <SelectTrigger class="w-full">
             <SelectValue placeholder="Visibility..." />
           </SelectTrigger>
@@ -95,11 +95,14 @@
     <DialogFooter class="items-center !justify-between">
       <p class="text-sm text-muted-foreground">
         Looking to modify your trace file? Try
-        <a href="https://gpx.studio" target="_blank" class="text-blue-300 hover:underline">gpx.studio</a>
+        <a href="https://gpx.studio" target="_blank" class="text-blue-400 hover:underline">gpx.studio</a>
       </p>
-      <Button @click="handleEdit()" :disabled="!canSubmit">
-        <p>Upload</p>
-        <Upload class="size-4" />
+      <Button @click="handleUpload()" :disabled="!canSubmit || uploading" class="w-24">
+        <LoaderCircle v-if="uploading" class="size-4 animate-spin" />
+        <div v-else class="flex items-center gap-1">
+          <p>Upload</p>
+          <Upload class="size-4" />
+        </div>
       </Button>
     </DialogFooter>
   </DialogContent>
@@ -131,31 +134,49 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Upload, Info, Link2 } from 'lucide-vue-next'
+import { Upload, Info, Link2, LoaderCircle } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
+import { useTraceStore, type OSMTrace, TraceVisibility } from '@/stores/traces'
 
 const emit = defineEmits<{
   close: []
 }>()
 
-const selectedFile = ref();
-const description = ref('')
-const tags = ref([])
-const visibility = ref<'private' | 'public' | 'trackable' | 'identifiable'>()
+const { upload } = useTraceStore();
+
+const trace = ref<Partial<OSMTrace>>({
+  description: '',
+  tags: [],
+  visibility: TraceVisibility.PUBLIC
+});
 
 const canSubmit = computed(() => {
-  return !!description.value && !!visibility.value
+  return trace.value.description && trace.value.description?.length > 0 && !!trace.value.visibility && !!trace.value.file
 })
 
 const handleUploadedFile = () => {
   const input = document.getElementById("gpxFileInput") as HTMLInputElement;
   if (!input) throw Error('Something went wrong while getting the file upload input element.');
-  selectedFile.value = input.files?.[0];
-  console.log(selectedFile.value);
-
+  trace.value.file = input.files?.[0];
 }
 
-const handleEdit = () => {
-  emit('close')
+const uploading = ref(false);
+const handleUpload = async () => {
+  try {
+    uploading.value = true;
+    // This function can't be called without canSubmit being `true`, so we 
+    // don't need to double-check that the trace details are complete
+    await upload(trace.value as OSMTrace);
+  } finally {
+    uploading.value = false;
+
+    trace.value = {
+      description: '',
+      tags: [],
+      visibility: TraceVisibility.PUBLIC
+    }
+
+    emit('close');
+  }
 }
 </script>

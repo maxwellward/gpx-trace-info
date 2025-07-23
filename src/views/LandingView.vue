@@ -6,11 +6,14 @@
 			<h2 class="text-3xl font-semibold w-2/3 text-center">View and manage your OpenStreetMap GPX traces, all from
 				one place.
 			</h2>
-			<Button class="mt-8 w-56" @click="handleSignIn" :disabled="authStore.isLoading">
+			<Button class="mt-8" :class="authStore.isAuthenticated ? 'w-36' : 'w-56'"
+				@click="authStore.isAuthenticated ? router.push({ name: 'stats' }) : handleSignIn"
+				:disabled="authStore.isLoading">
 				<LoaderCircle v-if="authStore.isLoading" class="size-4 animate-spin" />
 				<div v-else class="inline-flex items-center gap-1">
-					<p>Sign in with OpenStreetMap</p>
-					<Map class="size-4 mt-0.5" />
+					<p>{{ authStore.isAuthenticated ? 'View your data' : 'Sign in with OpenStreetMap' }}</p>
+					<ChartLine v-if="authStore.isAuthenticated" class="size-4 mt-0.5" />
+					<Map v-else class="size-4 mt-0.5" />
 				</div>
 			</Button>
 
@@ -44,6 +47,7 @@ import { Map, ChartLine, GitCompareArrows, WandSparkles, DraftingCompass, Loader
 import { h, onMounted } from 'vue';
 
 import { useAuthStore } from '@/stores/auth'
+import router from '@/router';
 
 const authStore = useAuthStore()
 

@@ -39,10 +39,10 @@ export const useAuthStore = defineStore('auth', () => {
 	// OAuth 2.0 configuration for OpenStreetMap
 	const CLIENT_ID = import.meta.env.VITE_OSM_CLIENT_ID || 'YOUR_CLIENT_ID'
 	const REDIRECT_URI = import.meta.env.VITE_OSM_REDIRECT_URI || `${window.location.origin}/auth/callback`
-	const SCOPE = 'read_prefs read_gpx'
-	const OSM_AUTH_URL = 'https://www.openstreetmap.org/oauth2/authorize'
-	const OSM_TOKEN_URL = 'https://www.openstreetmap.org/oauth2/token'
-	const OSM_API_URL = 'https://api.openstreetmap.org/api/0.6'
+	const SCOPE = 'read_prefs read_gpx write_gpx openid'
+	const OSM_AUTH_URL = import.meta.env.VITE_OSM_AUTH_URL
+	const OSM_TOKEN_URL = import.meta.env.VITE_OSM_TOKEN_URL
+	const OSM_API_URL = import.meta.env.VITE_OSM_API_BASE_URI
 
 	// Generate a random state parameter for CSRF protection
 	const generateState = () => {
