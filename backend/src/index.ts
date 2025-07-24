@@ -3,16 +3,38 @@ import cors from '@fastify/cors';
 import userRoutes from './routes/users/index';
 import gpxRoutes from './routes/gpx/index';
 import db from './db';
+import fastifyEnv from '@fastify/env';
 
 const fastify = Fastify({
 	logger: true,
 });
+
+const schema = {
+	type: 'object',
+	required: ['PORT', 'OSM_BASE_URI'],
+	properties: {
+		PORT: {
+			type: 'string',
+			default: 3000,
+		},
+		OSM_BASE_URI: {
+			type: 'string',
+			default: 'https://api.openstreetmap.org/api/0.6',
+		},
+	},
+};
 
 async function start() {
 	try {
 		// Register CORS
 		await fastify.register(cors, {
 			origin: true,
+		});
+
+		// Register FastifyEnv
+
+		await fastify.register(fastifyEnv, {
+			schema,
 		});
 
 		// Register routes

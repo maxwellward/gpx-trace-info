@@ -1,10 +1,28 @@
+-- Enable PostGIS
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
 	id SERIAL PRIMARY KEY NOT NULL,
 	username VARCHAR(255) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	token_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+-- Create user_tokens table
+CREATE TABLE IF NOT EXISTS user_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    token_type VARCHAR(50) NOT NULL DEFAULT 'bearer',
+    expires_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_used TIMESTAMP
+);
+
+-- Token indexes
+CREATE INDEX IF NOT EXISTS idx_user_tokens_user_id ON user_tokens(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_tokens_token ON user_tokens(token);
+CREATE INDEX IF NOT EXISTS idx_user_tokens_expires ON user_tokens(expires_at);
 
 CREATE TYPE visibility_type AS ENUM ('public', 'private', 'trackable', 'identifiable');
 
@@ -25,5 +43,5 @@ CREATE TABLE IF NOT EXISTS gpx_files (
 	uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
--- Create indexes
+-- GPX indexes
 CREATE INDEX IF NOT EXISTS idx_gpx_files_user_id ON gpx_files(user_id);

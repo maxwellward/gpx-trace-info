@@ -1,13 +1,20 @@
-// OSM API service
-// Add your OpenStreetMap API logic here
+import osmClient from '../utils/osmClient';
 
 export class OsmApiService {
-  // Mock methods - add your implementation
-  
-  async getReverseGeocode(lat: number, lon: number) {
-    console.log(`Getting reverse geocode for ${lat}, ${lon}`);
-    return { display_name: 'Mock location' };
-  }
+	async validateOSMToken(token: string): Promise<boolean> {
+		try {
+			const response = await osmClient.get('/user/details', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			console.log(response);
+			return true;
+			// return response;
+		} catch (error) {
+			return false;
+		}
+	}
 }
 
 export default new OsmApiService();

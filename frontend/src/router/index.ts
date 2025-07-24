@@ -3,14 +3,14 @@ import HomeView from '../views/HomeView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URI),
   routes: [
     {
       path: '/stats',
       name: 'stats',
       component: HomeView,
       beforeEnter: async (to, from, next) => {
-        const authStore = useAuthStore();
+        const authStore = useAuthStore()
 
         await authStore.loadSavedAuth()
         if (!authStore.isAuthenticated) {
@@ -18,7 +18,7 @@ const router = createRouter({
         } else {
           next()
         }
-      }
+      },
     },
     {
       path: '/',
