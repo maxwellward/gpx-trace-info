@@ -68,3 +68,4 @@ package-lock.json
 examples/typescript-server.js
 test/types/index.js
 .DS_Store
+.env
