@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import router from '@/router'
+import axios from 'axios'
 
 interface OSMUser {
   id: number
@@ -193,6 +194,14 @@ export const useAuthStore = defineStore('auth', () => {
       sessionStorage.removeItem('oauth_state')
       localStorage.removeItem('oauth_state_backup')
 
+      // Save bare minimum user data on the backend
+      try {
+        await axios.post(import.meta.env.VITE_BACKEND_URI + '/api/users', {
+          token: accessToken.value,
+        })
+      } catch (err) {
+        throw new Error(`Failed to validate token on the backend. Error: ${err}`)
+      }
       // Fetch user information
       await fetchUser()
 
