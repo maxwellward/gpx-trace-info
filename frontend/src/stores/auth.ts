@@ -208,6 +208,8 @@ export const useAuthStore = defineStore('auth', () => {
       isAuthenticated.value = true
       isLoading.value = false
     } catch (err) {
+      console.error(err);
+
       error.value = err instanceof Error ? err.message : 'Authentication failed'
       isLoading.value = false
     }

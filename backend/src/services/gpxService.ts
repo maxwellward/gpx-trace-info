@@ -3,7 +3,7 @@
 
 export class GpxService {
   // Mock methods - add your implementation
-  
+
   async processGpxFile(fileData: any) {
     console.log('Processing GPX file:', fileData);
     return { processed: true };
@@ -12,6 +12,11 @@ export class GpxService {
   async validateGpx(gpxData: any) {
     console.log('Validating GPX data');
     return { valid: true };
+  }
+
+  async syncGpxTraces() {
+    console.log('Syncing');
+
   }
 }
 
