@@ -1,7 +1,9 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { CreateUserDto, CreateUserResponse, createUserResponseSchema, createUserSchema } from './schema';
+import { CreateUserDto, CreateUserResponse, createUserResponseSchema, createUserSchema } from './schema/create-user-schema';
 import userService from '../../services/userService';
 import osmService from '../../services/osmService';
+import { SyncUserDto, syncUserResponseSchema, syncUserSchema } from './schema/sync-user-schema';
+import gpxService from '../../services/gpxService';
 
 async function userRoutes(fastify: FastifyInstance) {
 	// GET /api/users/:id
@@ -27,6 +29,29 @@ async function userRoutes(fastify: FastifyInstance) {
 			try {
 				const userData = await osmService.validateOSMToken(request.body.token);
 				await userService.createUser(request.body.token, userData.id, userData.username);
+				return reply.code(201).send();
+			} catch (error) {
+				fastify.log.error(error);
+				return reply.code(500).send();
+			}
+		}
+	);
+
+	// POST /api/users/sync
+	fastify.post<{
+		Body: SyncUserDto;
+	}>(
+		'/sync',
+		{
+			schema: {
+				...syncUserSchema,
+				...syncUserResponseSchema,
+			},
+		},
+		async (request: FastifyRequest<{ Body: SyncUserDto }>, reply) => {
+			try {
+				await osmService.validateOSMToken(request.body.token);
+				await gpxService.syncGpxTraces(request.body.token);
 				return reply.code(201).send();
 			} catch (error) {
 				fastify.log.error(error);

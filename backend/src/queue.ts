@@ -1,14 +1,22 @@
-// Queue setup for background jobs
-// Add your queue logic here
+import { Queue, Worker } from 'bullmq';
+import IORedis from 'ioredis';
+
+const downloadQueue = new Queue('downloads');
 
 export const queue = {
-  // Mock queue implementation
-  add: (jobName: string, data: any) => {
-    console.log(`Adding job ${jobName} to queue:`, data);
-  },
-  process: (jobName: string, handler: Function) => {
-    console.log(`Registering handler for job ${jobName}`);
-  }
+	// Mock queue implementation
+	add: (jobName: string, data: any) => {
+		downloadQueue.add(jobName, data);
+	},
 };
+
+const connection = new IORedis({ maxRetriesPerRequest: null });
+const worker = new Worker(
+	'downloads',
+	async (job) => {
+		console.log(job.data);
+	},
+	{ connection }
+);
 
 export default queue;

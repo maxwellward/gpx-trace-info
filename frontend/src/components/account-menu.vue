@@ -9,18 +9,36 @@
       <DropdownMenuLabel>Hi, {{ authStore.displayName || 'you' }}</DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuItem class="group">
-        <a :href="`${BASE_URI}/user/${authStore.displayName}`" target="_blank" class="flex items-center gap-1 group">
+        <a
+          :href="`${BASE_URI}/user/${authStore.displayName}`"
+          target="_blank"
+          class="flex items-center gap-1 group"
+        >
           <SquareArrowOutUpRight class="size-4 mt-0.5" />
           <p>OpenStreetMap Profile</p>
         </a>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <a href="https://github.com/maxwellward/gpx-trace-info" target="_blank" class="flex items-center gap-1 group">
+        <a
+          href="https://github.com/maxwellward/gpx-trace-info"
+          target="_blank"
+          class="flex items-center gap-1 group"
+        >
           <Github class="size-4 mt-0.5" />
           <p>GitHub</p>
         </a>
       </DropdownMenuItem>
-      <DropdownMenuItem class="flex items-center gap-1 group hover:cursor-pointer" @click="handleLogout">
+      <DropdownMenuItem
+        class="flex items-center gap-1 group hover:cursor-pointer"
+        @click="syncTraces"
+      >
+        <RefreshCw class="size-4 mt-0.5" />
+        <p>Sync Traces</p>
+      </DropdownMenuItem>
+      <DropdownMenuItem
+        class="flex items-center gap-1 group hover:cursor-pointer"
+        @click="handleLogout"
+      >
         <LogOut class="size-4 mt-0.5" />
         <p>Sign Out</p>
       </DropdownMenuItem>
@@ -39,24 +57,31 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 
-import { SquareArrowOutUpRight, LogOut, Github } from 'lucide-vue-next'
+import { SquareArrowOutUpRight, LogOut, Github, RefreshCw } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
+import { useTraceStore } from '@/stores/traces'
 
 const authStore = useAuthStore()
-const user = computed(() => authStore.user);
+const traceStore = useTraceStore()
 
-const BASE_URI = import.meta.env.VITE_OSM_BASE_URI;
+const user = computed(() => authStore.user)
+
+const BASE_URI = import.meta.env.VITE_OSM_BASE_URI
 
 const profileImage = computed(() => {
   if (user.value?.img) {
-    return user.value.img.href;
+    return user.value.img.href
   } else {
-    return `https://api.dicebear.com/9.x/thumbs/svg?seed=${authStore.displayName}`;
+    return `https://api.dicebear.com/9.x/thumbs/svg?seed=${authStore.displayName}`
   }
 })
 
 const handleLogout = () => {
   authStore.logout()
+}
+
+const syncTraces = () => {
+  traceStore.sync()
 }
 </script>

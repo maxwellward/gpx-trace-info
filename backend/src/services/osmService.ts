@@ -15,11 +15,13 @@ export class OsmApiService {
 	}
 
 	async getGpxTraces(token: string): Promise<any> {
-		const { data } = await osmClient.get('/user/details', {
+		const { data } = await osmClient.get('/user/gpx_files', {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		});
+
+		return data;
 	}
 }
 

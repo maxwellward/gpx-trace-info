@@ -196,7 +196,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       // Save bare minimum user data on the backend
       try {
-        await axios.post(import.meta.env.VITE_BACKEND_URI + '/api/users', {
+        await axios.post(import.meta.env.VITE_BACKEND_URI + '/users', {
           token: accessToken.value,
         })
       } catch (err) {
@@ -208,7 +208,7 @@ export const useAuthStore = defineStore('auth', () => {
       isAuthenticated.value = true
       isLoading.value = false
     } catch (err) {
-      console.error(err);
+      console.error(err)
 
       error.value = err instanceof Error ? err.message : 'Authentication failed'
       isLoading.value = false

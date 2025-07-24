@@ -15,6 +15,7 @@
     "@fastify/cors": "^8.4.0",
     "@fastify/env": "^4.4.0",
     "axios": "^1.11.0",
+    "bullmq": "^5.56.5",
     "fastify": "^4.24.3",
     "postgres": "^3.4.7"
   },
