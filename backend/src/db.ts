@@ -1,14 +1,30 @@
-// Database connection setup
-// Add your database logic here
+import postgres, { Sql } from 'postgres';
+import { runMigrations } from './migrate';
+
+let sql: Sql;
 
 export const db = {
-  // Mock database connection
-  connect: () => {
-    console.log('Database connected');
-  },
-  disconnect: () => {
-    console.log('Database disconnected');
-  }
+	connect: async () => {
+		sql = postgres('postgres://', {
+			host: '127.0.0.1',
+			port: 5432,
+			database: 'db',
+			username: 'postgres',
+			password: 'password',
+		});
+
+		await runMigrations(sql);
+
+		console.log('Database connected');
+		return;
+	},
+	disconnect: () => {
+		if (sql) {
+			sql.end();
+		}
+		console.log('Database disconnected');
+	},
 };
 
 export default db;
+export { sql };
