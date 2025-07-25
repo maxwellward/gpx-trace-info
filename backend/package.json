@@ -17,7 +17,8 @@
     "axios": "^1.11.0",
     "bullmq": "^5.56.5",
     "fastify": "^4.24.3",
-    "postgres": "^3.4.7"
+    "postgres": "^3.4.7",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

@@ -1,5 +1,5 @@
 <template>
-  <Toaster :duration="500000" theme="dark" closeButton />
+  <Toaster :duration="8000" theme="dark" closeButton />
 
   <div class="w-5/6 xl:w-5/6 2xl:w-[50%] mx-auto mt-16">
     <Header />

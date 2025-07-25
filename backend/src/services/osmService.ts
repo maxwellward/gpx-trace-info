@@ -23,6 +23,20 @@ export class OsmApiService {
 
 		return data;
 	}
+
+	async getGpxTraceData(id: number, token: string): Promise<any> {
+		try {
+			const { data } = await osmClient.get(`/gpx/${id}/data`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return data;
+		} catch (error) {
+			console.error(error);
+			return error;
+		}
+	}
 }
 
 export default new OsmApiService();

@@ -69,7 +69,8 @@ export const useTraceStore = defineStore('traces', () => {
       })
 
       toast.success('Sync started', {
-        description: 'This may take up to an hour depending on your trace count.',
+        description:
+          'This may take up to 5~ minutes depending on your trace count and server load.',
       })
     } catch (err) {
       toast.error('Something went wrong while syncing your GPX traces.', {
