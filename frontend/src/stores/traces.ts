@@ -18,6 +18,22 @@ export interface OSMTrace {
   visibility: TraceVisibility
 }
 
+export interface Trace {
+  id?: string
+  filename: string
+  description: string
+  distance: number // meters
+  points: number
+  visibility: 'public' | 'private' | 'trackable' | 'identifiable'
+  uploaded_at: Date
+  elevation_gain?: number // meters
+  average_speed?: number // m/s
+  duration?: number // seconds
+  start_point?: { lat: number; lon: number }
+  end_point?: { lat: number; lon: number }
+  geom?: string
+}
+
 export const useTraceStore = defineStore('traces', () => {
   const authStore = useAuthStore()
 
@@ -94,9 +110,20 @@ export const useTraceStore = defineStore('traces', () => {
     return data.traces
   }
 
+  const getTrace = async (tid: number): Promise<Trace> => {
+    const { data } = await axios.get(import.meta.env.VITE_BACKEND_URI + '/gpx/' + tid, {
+      headers: {
+        Authorization: authStore.accessToken,
+      },
+    })
+
+    return data.trace
+  }
+
   return {
     upload,
     sync,
     getTraces,
+    getTrace,
   }
 })

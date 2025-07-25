@@ -39,10 +39,13 @@ async function gpxRoutes(fastify: FastifyInstance) {
 	});
 
 	// GET /api/gpx/:id
-	fastify.get('/:id', async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+	fastify.get('/:id', async (request: FastifyRequest<{ Params: { id: number } }>, reply: FastifyReply) => {
+		const token = request.headers.authorization;
 		const { id } = request.params;
-		console.log(`GET /api/gpx/${id}`);
-		return { id, name: 'Mock GPX Trace' };
+		// This can safely be asserted because this route has gone through the authentication middleware
+		const uid = await userService.getUserIdFromToken(token!);
+		const trace = await gpxService.getGpxTrace(uid, id);
+		return { trace };
 	});
 
 	// POST /api/gpx/upload

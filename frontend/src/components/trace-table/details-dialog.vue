@@ -19,7 +19,9 @@
     <DialogFooter class="items-center !justify-between">
       <p class="text-sm text-muted-foreground">
         Looking to modify your trace file? Try
-        <a href="https://gpx.studio" target="_blank" class="text-blue-400 hover:underline">gpx.studio</a>
+        <a href="https://gpx.studio" target="_blank" class="text-blue-400 hover:underline"
+          >gpx.studio</a
+        >
       </p>
       <Button @click="emit('close')" variant="secondary">
         <p>Close</p>
@@ -39,27 +41,43 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { BookText } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import DetailsMap from '@/components/details-map.vue'
+import { useTraceStore, type Trace } from '@/stores/traces'
+
+const props = defineProps<{
+  open: boolean
+  tid: number
+}>()
 
 const emit = defineEmits<{
   close: []
 }>()
 
-const information = ref({
-  file_name: '19_Jul_2025_1425.gpx',
-  description: 'A nice fun walk through the forest',
-  tags: 'None',
-  uploaded: new Date('2025-07-19T21:29:00').toLocaleString(undefined, {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }),
-  points: 801,
-  start_coordinate: '49.67947, -124.98416',
-  visibility: 'Public',
-})
+const traceStore = useTraceStore()
+
+watch(
+  () => props.open,
+  async (newValue) => {
+    if (newValue) {
+      const trace: Trace = await traceStore.getTrace(props.tid)
+
+      information.value = {
+        filename: trace.filename,
+        description: trace.description,
+        distance: trace.distance,
+        points: trace.points,
+        visibility: trace.visibility[0].toUpperCase() + trace.visibility.slice(1),
+        uploaded: `${new Date(trace.uploaded_at).toLocaleString()} UTC`,
+        elevation_gain: `${trace.elevation_gain} meters`,
+        average_speed: `${trace.average_speed || 0 / 1000}km/h`,
+        duration: `${trace.duration} seconds`,
+        start_point: `${trace.start_point?.lat}, ${trace.start_point?.lon}`,
+        end_point: `${trace.end_point?.lat}, ${trace.end_point?.lon}`,
+      }
+    }
+  },
+)
+
+const information = ref()
 </script>

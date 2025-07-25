@@ -46,7 +46,7 @@
     </Dialog>
 
     <Dialog v-model:open="showDetailsDialog">
-      <DetailsDialog @close="showDetailsDialog = false" />
+      <DetailsDialog @close="showDetailsDialog = false" :open="showDetailsDialog" :tid="trace.id" />
     </Dialog>
   </div>
 </template>

@@ -115,13 +115,3 @@ export const columns: ColumnDef<Trace>[] = [
     },
   },
 ]
-
-export interface Trace {
-  id: string
-  filename: string
-  description: string
-  distance: number
-  points: number
-  visibility: 'public' | 'private' | 'trackable' | 'identifiable'
-  uploaded_at: Date
-}

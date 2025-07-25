@@ -190,6 +190,49 @@ export class GpxService {
 			uploaded_at: row.uploaded_at,
 		}));
 	}
+
+	async getGpxTrace(uid: number, tid: number): Promise<TraceMetadataExtended> {
+		const result = await sql`
+			SELECT 
+				id,
+				user_id,
+				filename,
+				description,
+				distance,
+				elevation_gain,
+				average_speed,
+				duration,
+				points,
+				ST_X(start_point) as start_lon,
+				ST_Y(start_point) as start_lat,
+				ST_X(end_point) as end_lon,
+				ST_Y(end_point) as end_lat,
+				visibility,
+				uploaded_at,
+				ST_AsText(geom) as geom
+			FROM gpx_files
+			WHERE user_id = ${uid} AND id = ${tid}
+		`;
+
+		if (result.length === 0) throw Error('No results');
+
+		return {
+			id: result[0].id,
+			user_id: result[0].user_id,
+			filename: result[0].filename,
+			description: result[0].description,
+			distance: result[0].distance,
+			elevation_gain: result[0].elevation_gain,
+			average_speed: result[0].average_speed,
+			duration: result[0].duration,
+			points: result[0].points,
+			visibility: result[0].visibility as Visibility,
+			uploaded_at: result[0].uploaded_at,
+			geom: result[0].geom,
+			start_point: { lat: result[0].start_lat, lon: result[0].start_lon },
+			end_point: { lat: result[0].end_lat, lon: result[0].end_lon },
+		};
+	}
 }
 
 export default new GpxService();
