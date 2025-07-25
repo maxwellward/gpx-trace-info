@@ -11,7 +11,7 @@
     <DetailsMap />
 
     <div class="flex items-center w-full gap-2" v-for="(value, key) in information" :key="key">
-      <p class="capitalize">{{ key.replace(/_/g, ' ') }}</p>
+      <p class="capitalize">{{ String(key).replace(/_/g, ' ') }}</p>
       <Separator class="flex-1 mx-2" />
       <p>{{ value }}</p>
     </div>
@@ -65,13 +65,15 @@ watch(
       information.value = {
         filename: trace.filename,
         description: trace.description,
-        distance: trace.distance,
+        distance: `${(trace.distance / 1000).toFixed(2)}km`,
         points: trace.points,
         visibility: trace.visibility[0].toUpperCase() + trace.visibility.slice(1),
         uploaded: `${new Date(trace.uploaded_at).toLocaleString()} UTC`,
         elevation_gain: `${trace.elevation_gain} meters`,
         average_speed: `${trace.average_speed || 0 / 1000}km/h`,
-        duration: `${trace.duration} seconds`,
+        duration: trace.duration
+          ? `${Math.floor(trace.duration / 3600) > 0 ? Math.floor(trace.duration / 3600) + 'h ' : ''}${Math.floor((trace.duration % 3600) / 60) > 0 ? Math.floor((trace.duration % 3600) / 60) + 'm ' : ''}${trace.duration % 60}s`
+          : 'N/A',
         start_point: `${trace.start_point?.lat}, ${trace.start_point?.lon}`,
         end_point: `${trace.end_point?.lat}, ${trace.end_point?.lon}`,
       }
