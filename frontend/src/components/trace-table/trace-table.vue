@@ -57,7 +57,12 @@
     </p>
   </div>
 
-  <Pagination v-slot="{ page }" :items-per-page="1" :total="3" :default-page="1">
+  <Pagination
+    v-slot="{ page }"
+    :items-per-page="1"
+    :total="Math.ceil(data.length / PAGE_SIZE)"
+    :default-page="1"
+  >
     <PaginationContent v-slot="{ items }">
       <PaginationPrevious :disabled="!table.getCanPreviousPage()" @click="table.previousPage()" />
 
@@ -66,12 +71,11 @@
           v-if="item.type === 'page'"
           :value="item.value"
           :is-active="item.value === page"
+          @click="table.setPageIndex(item.value - 1)"
         >
           {{ item.value }}
         </PaginationItem>
       </template>
-
-      <PaginationEllipsis :index="4" />
 
       <PaginationNext :disabled="!table.getCanNextPage()" @click="table.nextPage()" />
     </PaginationContent>
@@ -152,5 +156,6 @@ const table = useVueTable({
   },
 })
 
-table.setPageSize(5)
+const PAGE_SIZE = 10
+table.setPageSize(PAGE_SIZE)
 </script>

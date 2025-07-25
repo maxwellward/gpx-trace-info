@@ -59,6 +59,16 @@ interface TraceMetadataExtended {
 	geom: string;
 }
 
+interface LightTrace {
+	id: number;
+	filename: string;
+	description: string;
+	distance: number;
+	points: number;
+	visibility: Visibility;
+	uploaded_at: Date;
+}
+
 export class GpxService {
 	async processGpxFile(traceMeta: OsmTraceMetadata) {
 		try {
@@ -161,6 +171,24 @@ export class GpxService {
 		traces.forEach((traceMeta: OsmTraceMetadata) => {
 			queue.add('download', { ...traceMeta, token });
 		});
+	}
+
+	async getGpxTraces(uid: number): Promise<LightTrace[]> {
+		const result = await sql`
+			SELECT id, filename, description, distance, points, visibility, uploaded_at 
+			FROM gpx_files 
+			WHERE user_id = ${uid}
+		`;
+
+		return result.map((row) => ({
+			id: row.id,
+			filename: row.filename,
+			description: row.description,
+			distance: row.distance,
+			points: row.points,
+			visibility: row.visibility as Visibility,
+			uploaded_at: row.uploaded_at,
+		}));
 	}
 }
 

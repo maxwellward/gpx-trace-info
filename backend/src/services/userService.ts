@@ -1,9 +1,12 @@
 import { sql } from '../db';
 
 export class UserService {
-	async getUserById(id: string) {
-		console.log(`Getting user by ID: ${id}`);
-		return { id, name: 'Mock User' };
+	async getUserIdFromToken(token: string) {
+		const result = await sql`
+			SELECT user_id FROM user_tokens WHERE token = ${token}
+		`;
+		const id = result[0]?.user_id;
+		return id;
 	}
 
 	async createUser(token: string, id: number, username: string) {

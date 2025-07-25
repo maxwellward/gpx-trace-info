@@ -7,6 +7,7 @@ import fastifyEnv from '@fastify/env';
 
 const fastify = Fastify({
 	logger: true,
+	disableRequestLogging: true,
 });
 
 const schema = {

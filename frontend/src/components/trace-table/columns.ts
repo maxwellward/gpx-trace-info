@@ -24,9 +24,9 @@ export const columns: ColumnDef<Trace>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'filename',
     header: () => h('div', 'Name'),
-    cell: ({ row }) => h('div', { class: 'font-medium' }, row.getValue('name')),
+    cell: ({ row }) => h('div', { class: 'font-medium' }, row.getValue('filename')),
     enableSorting: false,
   },
   {
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Trace>[] = [
     },
     cell: ({ row }) => {
       const distance = Number(row.getValue('distance'))
-      const formatted = `${distance.toFixed(2)} km`
+      const formatted = `${(distance / 1000).toFixed(2)} km`
       return h('div', { class: 'ml-3 font-medium' }, formatted)
     },
   },
@@ -82,7 +82,7 @@ export const columns: ColumnDef<Trace>[] = [
     cell: ({ row }) => h('div', { class: 'capitalize ml-3' }, row.getValue('visibility')),
   },
   {
-    accessorKey: 'date',
+    accessorKey: 'uploaded_at',
     header: ({ column }) => {
       return h(
         Button,
@@ -90,12 +90,13 @@ export const columns: ColumnDef<Trace>[] = [
           variant: 'ghost',
           onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
         },
-        () => ['Date', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })],
+        () => ['Uploaded', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })],
       )
     },
     cell: ({ row }) => {
-      const date = row.getValue('date') as Date
-      return h('div', { class: 'ml-3' }, date.toLocaleDateString())
+      const uploaded_at = new Date(row.getValue('uploaded_at'))
+
+      return h('div', { class: 'ml-3' }, uploaded_at.toLocaleDateString())
     },
   },
   {
@@ -117,10 +118,10 @@ export const columns: ColumnDef<Trace>[] = [
 
 export interface Trace {
   id: string
-  name: string
+  filename: string
   description: string
   distance: number
   points: number
-  visibility: 'public' | 'private'
-  date: Date
+  visibility: 'public' | 'private' | 'trackable' | 'identifiable'
+  uploaded_at: Date
 }

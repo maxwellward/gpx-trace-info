@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue-sonner'
+import type { Trace } from '@/components/trace-table/columns'
 
 export enum TraceVisibility {
   PRIVATE = 'private',
@@ -83,8 +84,19 @@ export const useTraceStore = defineStore('traces', () => {
     }
   }
 
+  const getTraces = async (): Promise<Trace[]> => {
+    const { data } = await axios.get(import.meta.env.VITE_BACKEND_URI + '/gpx', {
+      headers: {
+        Authorization: authStore.accessToken,
+      },
+    })
+
+    return data.traces
+  }
+
   return {
     upload,
     sync,
+    getTraces,
   }
 })

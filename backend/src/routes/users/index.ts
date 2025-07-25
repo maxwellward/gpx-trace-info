@@ -6,13 +6,6 @@ import { SyncUserDto, syncUserResponseSchema, syncUserSchema } from './schema/sy
 import gpxService from '../../services/gpxService';
 
 async function userRoutes(fastify: FastifyInstance) {
-	// GET /api/users/:id
-	fastify.get('/:id', async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-		const { id } = request.params;
-		console.log(`GET /api/users/${id}`);
-		return { id, name: 'Mock User' };
-	});
-
 	// POST /api/users
 	fastify.post<{
 		Body: CreateUserDto;
@@ -59,20 +52,6 @@ async function userRoutes(fastify: FastifyInstance) {
 			}
 		}
 	);
-
-	// PUT /api/users/:id
-	fastify.put('/:id', async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-		const { id } = request.params;
-		console.log(`PUT /api/users/${id}`, request.body);
-		return { id, updated: true };
-	});
-
-	// DELETE /api/users/:id
-	fastify.delete('/:id', async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-		const { id } = request.params;
-		console.log(`DELETE /api/users/${id}`);
-		return { id, deleted: true };
-	});
 }
 
 export default userRoutes;
