@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue-sonner'
-import type { Trace } from '@/components/trace-table/columns'
 
 export enum TraceVisibility {
   PRIVATE = 'private',
@@ -120,10 +119,47 @@ export const useTraceStore = defineStore('traces', () => {
     return data.trace
   }
 
+  const downloadTrace = async (id: string, filename: string) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_OSM_API_BASE_URI}/gpx/${id}/data`,
+        {
+          headers: {
+            Authorization: `Bearer ${authStore.accessToken}`,
+          },
+          responseType: 'blob',
+        },
+      )
+
+      const blob = new Blob([response.data], { type: 'application/gpx+xml' })
+      const url = window.URL.createObjectURL(blob)
+
+      // Create a temporary anchor element to trigger the download
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename // Filename for the download
+      document.body.appendChild(a)
+      a.click()
+
+      // Clean up
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    } catch (err) {
+      toast.error('Something went wrong while download your GPX file.', {
+        description: err instanceof Error ? err.message : String(err),
+        action: {
+          label: 'Report Bug',
+          onClick: () => window.open('https://github.com/maxwellward/gpx-trace-info/issues'),
+        },
+      })
+    }
+  }
+
   return {
     upload,
     sync,
     getTraces,
     getTrace,
+    downloadTrace,
   }
 })

@@ -19,8 +19,7 @@
         </DropdownMenuItem>
         <DropdownMenuItem @click="showDeleteDialog = true" class="group">
           <Trash2
-            class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-red-400 transition-colors fade-out fade-in duration-150"
-          />
+            class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-red-400 transition-colors fade-out fade-in duration-150" />
           <p class="group-hover:text-red-400 transition-colors fade-out fade-in duration-150">
             Delete Trace
           </p>
@@ -30,7 +29,7 @@
           <BookText class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
           <p>View Details</p>
         </DropdownMenuItem>
-        <DropdownMenuItem class="group">
+        <DropdownMenuItem class="group" @click="downloadGpxFile">
           <ArrowDownToLine class="size-4 mt-0.5 -mr-0.5 text-[#9f9fa9] group-hover:text-white" />
           <p>Download GPX File</p>
         </DropdownMenuItem>
@@ -46,7 +45,7 @@
     </Dialog>
 
     <Dialog v-model:open="showDetailsDialog">
-      <DetailsDialog @close="showDetailsDialog = false" :open="showDetailsDialog" :tid="trace.id" />
+      <DetailsDialog @close="showDetailsDialog = false" :open="showDetailsDialog" :tid="Number(trace.id)" />
     </Dialog>
   </div>
 </template>
@@ -74,12 +73,14 @@ import DeleteDialog from '@/components/trace-table/delete-dialog.vue'
 import EditDialog from '@/components/trace-table/edit-dialog.vue'
 import DetailsDialog from '@/components/trace-table/details-dialog.vue'
 import { Dialog } from '@/components/ui/dialog'
+import { useTraceStore, type Trace } from '@/stores/traces'
+import { toast } from 'vue-sonner'
 
-defineProps<{
-  trace: {
-    id: string
-  }
+const props = defineProps<{
+  trace: Trace
 }>()
+
+const { downloadTrace } = useTraceStore();
 
 function copy(id: string) {
   navigator.clipboard.writeText(id)
@@ -88,4 +89,11 @@ function copy(id: string) {
 const showDeleteDialog = ref(false)
 const showEditDialog = ref(false)
 const showDetailsDialog = ref(false)
+
+const downloadGpxFile = () => {
+  if (props.trace.id) {
+    toast.success('File download requested');
+    downloadTrace(props.trace.id, props.trace.filename);
+  }
+}
 </script>
