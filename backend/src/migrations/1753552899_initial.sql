@@ -22,7 +22,7 @@ CREATE INDEX IF NOT EXISTS idx_user_tokens_user_id ON user_tokens(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_tokens_token ON user_tokens(token);
 CREATE INDEX IF NOT EXISTS idx_user_tokens_expires ON user_tokens(expires_at);
 
--- CREATE TYPE visibility_type AS ENUM ('public', 'private', 'trackable', 'identifiable');
+CREATE TYPE visibility_type AS ENUM ('public', 'private', 'trackable', 'identifiable');
 
 -- Create gpx_files table
 CREATE TABLE IF NOT EXISTS gpx_files (
