@@ -7,23 +7,23 @@ import { Checkbox } from '@/components/ui/checkbox'
 import type { Trace } from '@/stores/traces'
 
 export const columns: ColumnDef<Trace>[] = [
-  {
-    id: 'select',
-    header: ({ table }) =>
-      h(Checkbox, {
-        modelValue: table.getIsAllPageRowsSelected(),
-        'onUpdate:modelValue': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
-        ariaLabel: 'Select all',
-      }),
-    cell: ({ row }) =>
-      h(Checkbox, {
-        modelValue: row.getIsSelected(),
-        'onUpdate:modelValue': (value: boolean) => row.toggleSelected(!!value),
-        ariaLabel: 'Select row',
-      }),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: 'select',
+  //   header: ({ table }) =>
+  //     h(Checkbox, {
+  //       modelValue: table.getIsAllPageRowsSelected(),
+  //       'onUpdate:modelValue': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+  //       ariaLabel: 'Select all',
+  //     }),
+  //   cell: ({ row }) =>
+  //     h(Checkbox, {
+  //       modelValue: row.getIsSelected(),
+  //       'onUpdate:modelValue': (value: boolean) => row.toggleSelected(!!value),
+  //       ariaLabel: 'Select row',
+  //     }),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'filename',
     header: () => h('div', 'Name'),
