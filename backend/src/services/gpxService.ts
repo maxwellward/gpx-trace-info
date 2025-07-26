@@ -166,6 +166,7 @@ export class GpxService {
 	}
 
 	async syncGpxTraces(token: string) {
+		// TODO: figure out why this is passing the token not the uid and why it works??
 		const { traces } = await osmService.getGpxTraces(token);
 
 		traces.forEach((traceMeta: OsmTraceMetadata) => {
@@ -232,6 +233,20 @@ export class GpxService {
 			start_point: { lat: result[0].start_lat, lon: result[0].start_lon },
 			end_point: { lat: result[0].end_lat, lon: result[0].end_lon },
 		};
+	}
+
+	async canSync(uid: number): Promise<Boolean> {
+		const result = await sql`SELECT last_sync FROM users WHERE id = ${uid}`
+
+		const lastSync = new Date(result[0].last_sync);
+		const now = new Date();
+		const oneHourAgo = new Date(now.getTime() - (60 * 60 * 1000));
+
+		if (lastSync < oneHourAgo) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

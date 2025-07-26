@@ -43,7 +43,9 @@ async function userRoutes(fastify: FastifyInstance) {
 		},
 		async (request: FastifyRequest<{ Body: SyncUserDto }>, reply) => {
 			try {
-				await osmService.validateOSMToken(request.body.token);
+				const { id } = await osmService.validateOSMToken(request.body.token);
+				const canSync = await gpxService.canSync(id);
+				if (!canSync) return reply.code(429).send();
 				await gpxService.syncGpxTraces(request.body.token);
 				return reply.code(201).send();
 			} catch (error) {
