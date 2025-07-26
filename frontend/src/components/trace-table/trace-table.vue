@@ -6,10 +6,16 @@
         <TextSearch class="size-4 text-muted-foreground" />
       </span>
     </div>
-    <Button @click="showUploadDialog = true">
-      <Upload class="size-4" />
-      <p>Upload GPX Trace</p>
-    </Button>
+    <div class="flex items-center gap-2">
+      <Button @click="showSyncDialog = true" size="icon">
+        <RefreshCw class="size-4" />
+      </Button>
+      <Button @click="showUploadDialog = true">
+        <Upload class="size-4" />
+        <p>Upload GPX Trace</p>
+      </Button>
+    </div>
+
   </div>
 
   <div class="border rounded-md">
@@ -17,21 +23,15 @@
       <TableHeader>
         <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
           <TableHead v-for="header in headerGroup.headers" :key="header.id">
-            <FlexRender
-              v-if="!header.isPlaceholder"
-              :render="header.column.columnDef.header"
-              :props="header.getContext()"
-            />
+            <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+              :props="header.getContext()" />
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <template v-if="table.getRowModel().rows?.length">
-          <TableRow
-            v-for="row in table.getRowModel().rows"
-            :key="row.id"
-            :data-state="row.getIsSelected() ? 'selected' : undefined"
-          >
+          <TableRow v-for="row in table.getRowModel().rows" :key="row.id"
+            :data-state="row.getIsSelected() ? 'selected' : undefined">
             <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
               <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
             </TableCell>
@@ -46,10 +46,8 @@
     </Table>
   </div>
 
-  <div
-    class="mt-1 flex-1 text-sm text-muted-foreground"
-    :class="[table.getFilteredSelectedRowModel().rows.length > 0 ? 'visible' : 'invisible']"
-  >
+  <div class="mt-1 flex-1 text-sm text-muted-foreground"
+    :class="[table.getFilteredSelectedRowModel().rows.length > 0 ? 'visible' : 'invisible']">
     <p>
       {{ table.getFilteredSelectedRowModel().rows.length }} of
       {{ table.getFilteredRowModel().rows.length }}
@@ -57,22 +55,13 @@
     </p>
   </div>
 
-  <Pagination
-    v-slot="{ page }"
-    :items-per-page="1"
-    :total="Math.ceil(data.length / PAGE_SIZE)"
-    :default-page="1"
-  >
+  <Pagination v-slot="{ page }" :items-per-page="1" :total="Math.ceil(data.length / PAGE_SIZE)" :default-page="1">
     <PaginationContent v-slot="{ items }">
       <PaginationPrevious :disabled="!table.getCanPreviousPage()" @click="table.previousPage()" />
 
       <template v-for="(item, index) in items" :key="index">
-        <PaginationItem
-          v-if="item.type === 'page'"
-          :value="item.value"
-          :is-active="item.value === page"
-          @click="table.setPageIndex(item.value - 1)"
-        >
+        <PaginationItem v-if="item.type === 'page'" :value="item.value" :is-active="item.value === page"
+          @click="table.setPageIndex(item.value - 1)">
           {{ item.value }}
         </PaginationItem>
       </template>
@@ -83,6 +72,9 @@
 
   <Dialog v-model:open="showUploadDialog">
     <UploadDialog @close="showUploadDialog = false" />
+  </Dialog>
+  <Dialog v-model:open="showSyncDialog">
+    <SyncDialog @close="showSyncDialog = false" />
   </Dialog>
 </template>
 
@@ -110,7 +102,6 @@ import { Button } from '@/components/ui/button'
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
@@ -118,11 +109,12 @@ import {
 
 import { Input } from '@/components/ui/input'
 
-import { TextSearch, Upload } from 'lucide-vue-next'
+import { RefreshCw, TextSearch, Upload } from 'lucide-vue-next'
 
 import { valueUpdater } from '@/lib/utils'
 import { ref } from 'vue'
 import UploadDialog from '@/components/trace-table/upload-dialog.vue'
+import SyncDialog from '@/components/trace-table/sync-dialog.vue'
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
@@ -130,6 +122,7 @@ const props = defineProps<{
 }>()
 
 const showUploadDialog = ref(false)
+const showSyncDialog = ref(false)
 
 const sorting = ref<SortingState>([])
 const rowSelection = ref({})
