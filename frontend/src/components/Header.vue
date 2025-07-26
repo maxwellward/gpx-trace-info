@@ -6,7 +6,7 @@
         <h1 class="text-text-primary font-bold tracking-wide text-xl sm:text-2xl">GPX Statistics</h1>
       </RouterLink>
       <div class="space-x-2 flex items-center h-full">
-        <DatePicker v-if="isOnDataPage && isAuthenticated" />
+        <DatePicker v-if="isOnDataPage && isAuthenticated" v-model="selectedRange" />
 
         <Select v-if="isOnDataPage && isAuthenticated">
           <SelectTrigger>
@@ -50,13 +50,21 @@ import AccountMenu from '@/components/account-menu.vue'
 import { useAuthStore } from '@/stores/auth';
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useTraceStore } from '@/stores/traces'
 
 const authStore = useAuthStore()
+const traceStore = useTraceStore()
 const route = useRoute()
 
-// Use computed properties to maintain reactivity
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const isOnDataPage = computed(() => route.name === 'stats')
+
+const selectedRange = computed({
+  get: () => traceStore.selectedTraceRange,
+  set: (value) => {
+    traceStore.selectedTraceRange = value
+  }
+})
 
 onMounted(async () => {
   // Load any saved authentication state

@@ -112,20 +112,24 @@ import { Input } from '@/components/ui/input'
 import { RefreshCw, TextSearch, Upload } from 'lucide-vue-next'
 
 import { valueUpdater } from '@/lib/utils'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import UploadDialog from '@/components/trace-table/upload-dialog.vue'
 import SyncDialog from '@/components/trace-table/sync-dialog.vue'
+import { useTraceStore } from '@/stores/traces'
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }>()
 
+// const traceStore = useTraceStore();
+
 const showUploadDialog = ref(false)
 const showSyncDialog = ref(false)
 
 const sorting = ref<SortingState>([])
 const rowSelection = ref({})
+// const selectedDateRange = computed(() => traceStore.selectedTraceRange)
 
 const table = useVueTable({
   get data() {

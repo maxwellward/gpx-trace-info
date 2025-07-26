@@ -7,20 +7,34 @@ import {
 } from '@internationalized/date'
 
 import { CalendarIcon } from 'lucide-vue-next'
-import { type Ref, ref } from 'vue'
-import { cn } from '@/utils'
+import { computed } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { RangeCalendar } from '@/components/ui/range-calendar'
+
+interface Props {
+	modelValue?: DateRange
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	modelValue: () => ({
+		start: new CalendarDate(2022, 1, 20),
+		end: new CalendarDate(2022, 1, 20).add({ days: 20 }),
+	})
+})
+
+const emit = defineEmits<{
+	'update:modelValue': [value: DateRange]
+}>()
 
 const df = new DateFormatter('en-US', {
 	dateStyle: 'medium',
 })
 
-const value = ref({
-	start: new CalendarDate(2022, 1, 20),
-	end: new CalendarDate(2022, 1, 20).add({ days: 20 }),
-}) as Ref<DateRange>
+const value = computed({
+	get: () => props.modelValue,
+	set: (newValue: DateRange) => emit('update:modelValue', newValue)
+})
 </script>
 
 <template>
@@ -46,8 +60,7 @@ const value = ref({
 			</Button>
 		</PopoverTrigger>
 		<PopoverContent class="w-auto p-0">
-			<RangeCalendar v-model="value" initial-focus :number-of-months="2"
-				@update:start-value="(startDate) => value.start = startDate" />
+			<RangeCalendar v-model="value" initial-focus :number-of-months="2" />
 		</PopoverContent>
 	</Popover>
 </template>

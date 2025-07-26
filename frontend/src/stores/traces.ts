@@ -2,6 +2,10 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue-sonner'
+import { ref } from 'vue'
+import {
+  CalendarDate,
+} from '@internationalized/date'
 
 export enum TraceVisibility {
   PRIVATE = 'private',
@@ -33,8 +37,18 @@ export interface Trace {
   geom?: string
 }
 
+export type TraceRange = {
+  start: CalendarDate
+  end: CalendarDate
+}
+
 export const useTraceStore = defineStore('traces', () => {
   const authStore = useAuthStore()
+
+  const selectedTraceRange = ref<TraceRange>({
+    start: new CalendarDate(2003, 11, 8),
+    end: new CalendarDate(2003, 11, 8),
+  });
 
   const upload = async (trace: OSMTrace) => {
     try {
@@ -106,7 +120,21 @@ export const useTraceStore = defineStore('traces', () => {
       },
     })
 
-    return data.traces
+    const traces: Trace[] = data.traces;
+
+    console.log('setting range');
+
+    const first = new Date(traces[0].uploaded_at);
+    const last = new Date(traces[traces.length - 1].uploaded_at);
+
+    selectedTraceRange.value = {
+      start: new CalendarDate(first.getFullYear(), first.getMonth() + 1, first.getDate()),
+      end: new CalendarDate(last.getFullYear(), last.getMonth() + 1, last.getDate()),
+    }
+
+    console.log(selectedTraceRange.value);
+
+    return traces;
   }
 
   const getTrace = async (tid: number): Promise<Trace> => {
@@ -161,5 +189,6 @@ export const useTraceStore = defineStore('traces', () => {
     getTraces,
     getTrace,
     downloadTrace,
+    selectedTraceRange
   }
 })
