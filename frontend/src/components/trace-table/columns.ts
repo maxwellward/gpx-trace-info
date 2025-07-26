@@ -3,7 +3,6 @@ import { h } from 'vue'
 import DropdownAction from '@/components/trace-table/trace-table-dropdown.vue'
 import { ArrowUpDown } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import type { Trace } from '@/stores/traces'
 
 export const columns: ColumnDef<Trace>[] = [

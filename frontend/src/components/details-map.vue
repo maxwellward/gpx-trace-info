@@ -107,10 +107,7 @@ onUnmounted(() => {
 
 <template>
   <div class="map-wrapper relative w-full h-full">
-    <div
-      ref="mapContainer"
-      class="map-container w-full h-full rounded-lg overflow-hidden border border-border"
-    />
+    <div ref="mapContainer" class="map-container w-full h-full rounded-lg overflow-hidden border border-border" />
   </div>
 </template>
 
