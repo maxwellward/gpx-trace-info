@@ -1,4 +1,5 @@
 import osmClient from '../utils/osmClient';
+import userService from './userService';
 
 export class OsmApiService {
 	async validateOSMToken(token: string): Promise<{ id: number; username: string }> {
@@ -7,6 +8,8 @@ export class OsmApiService {
 				Authorization: `Bearer ${token}`,
 			},
 		});
+
+		await userService.createUser(token, data.user.id, data.user.display_name);
 
 		return {
 			id: data.user.id,
