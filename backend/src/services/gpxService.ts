@@ -166,7 +166,6 @@ export class GpxService {
 	}
 
 	async syncGpxTraces(token: string) {
-		// TODO: figure out why this is passing the token not the uid and why it works??
 		const { traces } = await osmService.getGpxTraces(token);
 
 		traces.forEach((traceMeta: OsmTraceMetadata) => {
@@ -174,7 +173,7 @@ export class GpxService {
 		});
 	}
 
-	async getGpxTraces(uid: number): Promise<LightTrace[]> {
+	async getStoredGpxTraces(uid: number): Promise<LightTrace[]> {
 		const result = await sql`
 			SELECT id, filename, description, distance, points, visibility, uploaded_at 
 			FROM gpx_files 

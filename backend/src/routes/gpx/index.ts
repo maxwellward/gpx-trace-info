@@ -34,7 +34,7 @@ async function gpxRoutes(fastify: FastifyInstance) {
 		const token = request.headers.authorization;
 		// This can safely be asserted because this route has gone through the authentication middleware
 		const uid = await userService.getUserIdFromToken(token!);
-		const traces = await gpxService.getGpxTraces(uid);
+		const traces = await gpxService.getStoredGpxTraces(uid);
 		return { traces };
 	});
 
