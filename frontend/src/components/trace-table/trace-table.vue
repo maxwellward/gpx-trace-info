@@ -1,11 +1,11 @@
 <template>
-  <div class="flex justify-between items-center mb-2">
-    <div class="relative w-full sm:max-w-sm items-center">
+  <div class="flex justify-end items-center mb-2">
+    <!-- <div class="relative w-full sm:max-w-sm items-center">
       <Input id="search" type="text" placeholder="Search for any field..." class="pl-8" />
       <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
         <TextSearch class="size-4 text-muted-foreground" />
       </span>
-    </div>
+    </div> -->
     <div class="flex items-center gap-2">
       <Button @click="showSyncDialog = true" size="icon">
         <RefreshCw class="size-4" />
